@@ -2,8 +2,13 @@
   x-data="{
     items: @entangle($field['signature'].(isset($language) ? '.' . $language : null)),
     newItem: '',
-    addItem() {
-      this.items.push(this.newItem)
+    addItem(item) {
+      item = item || this.newItem;
+
+      if(!item)
+          return;
+
+      this.items.push(item)
       this.items = JSON.parse(
         JSON.stringify(this.items)
       )
@@ -13,7 +18,16 @@
         this.items = this.items.filter((item, itemIndex) => {
             return index !== itemIndex
         })
-    }
+    },
+    hasItem(item) {
+        if(this.items.indexOf(item) > -1)
+            return false;
+
+        return true;
+    },
+    isFull() {
+        return this.items.length != '{{ count($field['configuration']['lookups']) }}';
+    },
   }"
   x-init="
     items = Array.isArray(items) ? items : []
@@ -60,7 +74,18 @@
     </template>
   </ul>
 
-  <div class="mt-2">
-    <x-hub::input.text x-model="newItem" placeholder="Type item and press enter" @keydown.enter="addItem()" />
+  <div class="mt-2" x-show="isFull()">
+    {{--<x-hub::input.text x-model="newItem" placeholder="Type item and press enter" @keydown.enter="addItem()" />--}}
+    <x-hub::input.autocomplete x-model="newItem" @keydown.enter="addItem()">
+        @foreach($field['configuration']['lookups'] as $lookup)
+            <li
+                x-show="hasItem('{{ $lookup['value'] }}')"
+                class="px-2 py-1 cursor-pointer"
+                @click="addItem('{{ $lookup['value'] }}')"
+            >
+                {{ $lookup['value'] }}
+            </li>
+        @endforeach
+    </x-hub::input.autocomplete>
   </div>
 </div>

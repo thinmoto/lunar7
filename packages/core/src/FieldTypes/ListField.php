@@ -89,6 +89,8 @@ class ListField implements FieldType, JsonSerializable
         return [
             'options' => [
                 'max_items' => 'numeric|nullable',
+                'lookups' => 'array',
+                'lookups.*.value' => 'nullable|string',
             ],
         ];
     }
