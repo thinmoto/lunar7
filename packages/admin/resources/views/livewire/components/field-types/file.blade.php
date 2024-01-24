@@ -1,7 +1,7 @@
 <div class="space-y-4">
     <div class="flex justify-end">
         <x-hub::button wire:click="$set('showUploader', true)">
-            Choose assets
+            {{ __('adminhub::fieldtypes.file.choose_assets') }}
         </x-hub::button>
     </div>
 
@@ -42,7 +42,7 @@
     <x-hub::modal.dialog wire:model="showUploader">
         <x-slot name="title">
             <strong>
-                Select assets
+                {{ __('adminhub::fieldtypes.file.select_files') }}
             </strong>
         </x-slot>
 
@@ -54,7 +54,7 @@
                                      class="w-12 h-12 mx-auto text-gray-400" />
 
                         <p class="mt-4 text-xs font-medium text-center text-gray-600">
-                            {{ __('Upload Asset') }}
+                            {{ __('adminhub::fieldtypes.file.label') }}
                         </p>
                     </div>
 
