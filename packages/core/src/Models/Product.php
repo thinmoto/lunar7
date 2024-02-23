@@ -231,7 +231,7 @@ class Product extends BaseModel implements SpatieHasMedia
 		{
 			unset($collection->id);
 			$collection->product_id = $cloneProduct->getKey();
-			DB::table('lunar_collection_product')->insert($collection);
+			DB::table('lunar_collection_product')->insert(json_decode(json_encode($collection), true));
 		}
 
 		## variants with options
