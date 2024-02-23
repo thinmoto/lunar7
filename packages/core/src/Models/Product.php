@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 use Lunar\Base\BaseModel;
 use Lunar\Base\Casts\AsAttributeData;
 use Lunar\Base\Traits\HasChannels;
@@ -203,4 +204,50 @@ class Product extends BaseModel implements SpatieHasMedia
             'priceable_id'
         )->wherePriceableType(ProductVariant::class);
     }
+
+	public function clone()
+	{
+		$cloneProduct = $this->replicate();
+		$cloneProduct->push();
+
+		## name
+		$attributeData = $cloneProduct->attribute_data->toArray();
+		$name = $attributeData['name']->getValue();
+
+		foreach($name as $k => $v)
+			$name[$k]->setValue($name[$k]->getValue().' Copy');
+
+		$attributeData['name']->setValue($name);
+
+		$cloneProduct->attribute_data = $attributeData;
+		$cloneProduct->save();
+
+		## collections
+		$collection = DB::table('lunar_collection_product')
+			->where('product_id', $this->getKey())
+			->get()->toArray();
+
+		foreach($collection as $collection)
+		{
+			unset($collection->id);
+			$collection->product_id = $cloneProduct->getKey();
+			DB::table('lunar_collection_product')->insert($collection);
+		}
+
+		## variants with options
+		foreach ($this->variants as $variant)
+		{
+			$clonedVariant = $variant->replicate();
+			$clonedVariant->product_id = $cloneProduct->getKey();
+			$cloneProduct->variants()->save($clonedVariant);
+
+			foreach($variant->values as $value)
+			{
+				$clonedOption = $value->replicate();
+				$clonedVariant->values()->save($clonedOption);
+			}
+		}
+
+		return $cloneProduct;
+	}
 }
