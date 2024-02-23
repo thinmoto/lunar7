@@ -6,6 +6,8 @@ use Illuminate\Support\Collection;
 use Lunar\Hub\Http\Livewire\Traits\Notifies;
 use Lunar\Hub\Models\SavedSearch;
 use Lunar\Hub\Tables\Builders\ProductsTableBuilder;
+use Lunar\LivewireTables\Components\Actions\Action;
+use Lunar\LivewireTables\Components\Actions\BulkAction;
 use Lunar\LivewireTables\Components\Columns\BadgeColumn;
 use Lunar\LivewireTables\Components\Columns\ImageColumn;
 use Lunar\LivewireTables\Components\Columns\TextColumn;
@@ -126,6 +128,14 @@ class ProductsTable extends Table
                 __('adminhub::tables.headings.product_type')
             ),
         ]);
+
+	    $this->tableBuilder->addAction(
+		    Action::make('clone')
+			    ->label(__('adminhub::components.products.action-clone'))
+			    ->url(function ($record) {
+				    return route('hub.products.clone', $record->id);
+			    })
+	    );
     }
 
     /**

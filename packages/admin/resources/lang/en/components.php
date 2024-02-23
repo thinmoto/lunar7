@@ -21,6 +21,7 @@ return [
     'products.option-creator.add_value_btn' => 'Add value',
     'products.option-creator.create_option_btn' => 'Create option',
     'products.option-creator.values_strapline' => 'Add all the different possible values that are available for this product option.',
+    'products.action-clone' => 'Clone',
     'product-search.btn' => 'Add Products',
     'product-search.first_tab' => 'Search products',
     'product-search.second_tab' => 'Selected products',
