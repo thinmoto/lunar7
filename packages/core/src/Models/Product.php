@@ -223,11 +223,11 @@ class Product extends BaseModel implements SpatieHasMedia
 		$cloneProduct->save();
 
 		## collections
-		$collection = DB::table('lunar_collection_product')
+		$collections = DB::table('lunar_collection_product')
 			->where('product_id', $this->getKey())
 			->get()->toArray();
 
-		foreach($collection as $collection)
+		foreach($collections as $collection)
 		{
 			unset($collection->id);
 			$collection->product_id = $cloneProduct->getKey();
