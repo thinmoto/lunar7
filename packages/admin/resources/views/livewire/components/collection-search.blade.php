@@ -36,7 +36,7 @@
             <div x-show="tab == 'search'">
                 <x-hub::input.text wire:model.debounce.300ms="searchTerm" />
 
-                @if ($this->searchTerm)
+                @if ($this->searchTerm || true)
                     @if ($this->results->total() > $maxResults)
                         <span class="block p-3 my-2 text-xs text-sky-600 rounded bg-sky-50">
                             {{ __('adminhub::components.collection-search.max_results_exceeded', [
@@ -50,6 +50,7 @@
                             <div @class([
                                 'flex w-full items-center justify-between rounded shadow-sm text-left border px-2 py-2 text-sm',
                                 'opacity-25' => $this->existingIds->contains($collection->id),
+                                'ml-4' => $collection->parent_id > 0
                             ])>
                                 <div class="truncate max-w-64">
                                     <strong class="rounded px-1.5 py-0.5 mr-1 bg-sky-50 text-xs text-sky-600">

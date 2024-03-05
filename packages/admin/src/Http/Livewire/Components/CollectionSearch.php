@@ -5,6 +5,7 @@ namespace Lunar\Hub\Http\Livewire\Components;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Livewire\Component;
+use Lunar\Facades\DB;
 use Lunar\Models\Collection as ModelsCollection;
 
 class CollectionSearch extends Component
@@ -110,7 +111,7 @@ class CollectionSearch extends Component
     public function getResultsProperty()
     {
         if (! $this->searchTerm) {
-            return null;
+            return ModelsCollection::query()->with(['group'])->orderBy(DB::raw('IFNULL(parent_id, 0) * 100 + id * IFNULL(parent_id, 100)'))->paginate($this->maxResults);
         }
 
         return ModelsCollection::search($this->searchTerm)
