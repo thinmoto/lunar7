@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 @if ($errors->has("urls.{$loop->index}.*"))
-                    <div class="mt-2 text-sm text-red-500">
+                    <div class="mt-2 text-sm text-red-500 withError">
                         @foreach ($errors->get("urls.{$loop->index}.*") as $fields)
                             @foreach ($fields as $error)
                                 {{ $error }}
