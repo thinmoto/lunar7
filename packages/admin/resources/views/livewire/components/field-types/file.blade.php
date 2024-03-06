@@ -72,10 +72,10 @@
                         'border rounded-md cursor-pointer p-1 hover:border-sky-500',
                         'border-sky-500' => in_array($asset->id, $selected),
                     ])>
-                        <div class="flex items-center">
+                        <div class="flex items-center" style="float: left">
                             @if ($asset->file->hasGeneratedConversion('small'))
                                 <img src="{{ $asset->file->getUrl('small') }}"
-                                     class="object-contain w-6 h-6 mx-auto" style="max-width: 24px">
+                                     class="object-contain w-6 h-6 mx-auto" style="float: left">
                             @else
                                 <x-hub::icon ref="document"
                                              class="w-6 h-6 mx-auto text-gray-400" />
