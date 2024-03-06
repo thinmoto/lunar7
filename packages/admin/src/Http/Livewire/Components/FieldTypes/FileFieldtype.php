@@ -46,6 +46,8 @@ class FileFieldtype extends Component
      */
     public $signature;
 
+	public $searchTerm;
+
     /**
      * {@inheritDoc}
      */
@@ -101,6 +103,11 @@ class FileFieldtype extends Component
      */
     public function getAssetsProperty()
     {
+		if($this->searchTerm)
+			return Asset::query()->whereRelation('file', function($query){
+				$query->where('file_name', 'LIKE', '%'.$this->searchTerm.'%');
+			})->paginate(8, ['*'], 'assetsPage');
+
         return Asset::paginate(8, ['*'], 'assetsPage');
     }
 

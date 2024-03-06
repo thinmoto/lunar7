@@ -165,8 +165,10 @@
                             </div>
 
                             <div class="w-full">
+                                {{--<small class="text-gray-500">{{ $image['original'] }}</small>--}}
                                 <x-hub::input.text wire:model="images.{{ $key }}.caption"
                                                    placeholder="Enter Alt. text" />
+
                             </div>
 
                             <div class="flex items-center ml-4 space-x-4">
