@@ -20,7 +20,7 @@
                 </div>
             </header>
 
-            <div class="grid grid-cols-2 gap-4">
+            {{--<div class="grid grid-cols-2 gap-4">
                 <div>
                     <x-hub::input.group :label="__('adminhub::inputs.tax_class.label')" for="tax_class">
                         <x-hub::input.select id="tax_class" wire:model="variant.tax_class_id">
@@ -41,17 +41,18 @@
                         <x-hub::input.text wire:model="variant.tax_ref" id="tax_ref"/>
                     </x-hub::input.group>
                 </div>
-            </div>
+            </div>--}}
+
             <div class="space-y-4">
                 <div class="grid grid-cols-3 gap-4">
-                    <x-hub::input.group
+                    {{--<x-hub::input.group
                             :label="__('adminhub::inputs.unit_quantity.label')"
                             :instructions="__('adminhub::inputs.unit_quantity.instructions')"
                             :errors="$errors->get('variant.unit_quantity')"
                             for="unit_quantity"
                     >
                         <x-hub::input.text type="number" wire:model="variant.unit_quantity" id="unit_quantity"/>
-                    </x-hub::input.group>
+                    </x-hub::input.group>--}}
 
                     <x-hub::input.group
                             :label="__(
@@ -99,7 +100,7 @@
                 </div>
             </div>
 
-            <div class="space-y-4">
+            {{--<div class="space-y-4">
                 <div class="flex items-center justify-between">
                     <div>
                         <strong>{{ __('adminhub::partials.pricing.customer_groups.title') }}</strong>
@@ -110,7 +111,7 @@
 
                     <x-hub::input.toggle wire:model="customerPricingEnabled"/>
                 </div>
-            </div>
+            </div>--}}
 
             @if($this->customerPricingEnabled)
                 @foreach($this->customerGroups as $group)
@@ -135,7 +136,7 @@
                 @endforeach
             @endif
 
-            <div class="flex items-center justify-between pt-4 border-t">
+            {{--<div class="flex items-center justify-between pt-4 border-t">
                 <div>
                     <strong>{{ __('adminhub::partials.pricing.tiers.title') }}</strong>
                     <p class="text-xs text-gray-600">
@@ -146,7 +147,7 @@
                                type="button">
                     {{ __('adminhub::partials.pricing.tiers.add_tier_btn') }}
                 </x-hub::button>
-            </div>
+            </div>--}}
 
             <div class="space-y-4">
                 @if(count($tieredPrices))
