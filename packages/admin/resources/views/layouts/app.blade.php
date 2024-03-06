@@ -33,6 +33,40 @@
         .filepond--credits {
             display: none !important;
         }
+        .ajax-loading {
+            position: relative;
+        }
+        .ajax-loading::before{
+            display: block;
+            content: ' ';
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            width: 100%;
+            height:100%;
+            background: rgba(0,0,0,0.2);
+        }
+        .ajax-loading::after{
+            display: block;
+            content: ' ';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            z-index: 101;
+                width: 60px;
+                height: 60px;
+            margin: -30px 0 0 -30px;
+                border: 4px #ddd solid;
+                border-top: 4px #2e93e6 solid;
+                border-radius: 50%;
+                animation: sp-anime 0.8s infinite linear;
+        }
+        @keyframes sp-anime {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 
     <script defer

@@ -124,7 +124,9 @@ trait HasUrls
                 function ($attribute, $value, $fail) use ($url) {
                     $result = collect($this->urls)->filter(function ($existing) use ($value, $url) {
                         return $existing['slug'] == $value &&
-                        $existing['language_id'] == $url['language_id'];
+                        $existing['language_id'] == $url['language_id']
+	                        && ($existing['id'] != $url['id'])
+	                        ;
                     })->count();
 
                     if ($result > 1) {
@@ -133,14 +135,14 @@ trait HasUrls
                         );
                     }
                 },
-                Rule::unique(Url::class, 'slug')->where(function ($query) use ($url) {
-                    $query->where('slug', '=', $url['slug'])
-                        ->where('language_id', '=', $url['language_id']);
-
-                    if ($url['id'] ?? false) {
-                        $query->where('id', '!=', $url['id']);
-                    }
-                }),
+                // Rule::unique(Url::class, 'slug')->where(function ($query) use ($url) {
+                //     $query->where('slug', '=', $url['slug'])
+                //         ->where('language_id', '=', $url['language_id']);
+				//
+                //     if ($url['id'] ?? false) {
+                //         $query->where('id', '!=', $url['id']);
+                //     }
+                // }),
             ];
 
             $rules["urls.{$index}.default"] = [
@@ -149,7 +151,9 @@ trait HasUrls
                 function ($attribute, $value, $fail) use ($url) {
                     $result = collect($this->urls)->filter(function ($existing) use ($value, $url) {
                         return $existing['default'] == $value &&
-                        $existing['language_id'] == $url['language_id'];
+                        $existing['language_id'] == $url['language_id']
+	                        && ($existing['id'] != $url['id'])
+	                        ;
                     })->count();
 
                     if ($value && $result > 1) {

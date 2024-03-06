@@ -33,7 +33,7 @@
     </form>
 </x-hub::layout.bottom-panel>
 
-<div class="pb-24 mt-8 lg:gap-8 lg:flex lg:items-start">
+<div class="pb-24 mt-8 lg:gap-8 lg:flex lg:items-start" wire:loading.class="ajax-loading">
     <div class="space-y-6 lg:flex-1">
         <div class="space-y-6">
             {{--@if (!$this->hasChannelAvailability)

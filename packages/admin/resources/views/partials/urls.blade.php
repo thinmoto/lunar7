@@ -12,7 +12,6 @@
             </x-hub::alert>
         @endif
 
-
         <div class="space-y-4">
             @if (count($urls))
                 <div>
