@@ -106,9 +106,9 @@ class FileFieldtype extends Component
 		if($this->searchTerm)
 			return Asset::query()->whereRelation('file', function($query){
 				$query->where('file_name', 'LIKE', '%'.$this->searchTerm.'%');
-			})->paginate(10, ['*'], 'assetsPage');
+			})->orderByDesc('id')->paginate(10, ['*'], 'assetsPage');
 
-        return Asset::paginate(10, ['*'], 'assetsPage');
+        return Asset::query()->orderByDesc('id')->paginate(10, ['*'], 'assetsPage');
     }
 
     /**
