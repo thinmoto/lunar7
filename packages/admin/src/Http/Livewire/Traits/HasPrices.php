@@ -355,7 +355,7 @@ trait HasPrices
                 'nullable',
                 'numeric',
                 'max:10000000',
-                'min:0.0001',
+                'min:0',
                 new MaxDecimalPlaces($currency->decimal_places),
             ];
 
@@ -363,7 +363,7 @@ trait HasPrices
                 'required',
                 'numeric',
                 'max:10000000',
-                'min:0.0001',
+                'min:0',
                 new MaxDecimalPlaces($currency->decimal_places),
             ];
 
@@ -371,14 +371,14 @@ trait HasPrices
                 'nullable',
                 'numeric',
                 'max:10000000',
-                'min:0.0001',
+                'min:0',
                 new MaxDecimalPlaces($currency->decimal_places),
             ];
 
             $rules['tieredPrices.*.prices.'.$currency->code.'.price'] = [
                 'required',
                 'numeric',
-                'min:0.001',
+                'min:0',
                 'max:'.($this->basePrices[$currency->code]['price'] ?? null) ?: 0.001,
                 new MaxDecimalPlaces($currency->decimal_places),
             ];
