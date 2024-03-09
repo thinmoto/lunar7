@@ -2,6 +2,7 @@
 
 namespace Lunar\Hub\Http\Livewire\Components;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Lunar\Models\Product;
 
@@ -88,7 +89,8 @@ class ProductSearch extends Component
             return null;
         }
 
-        return Product::search($this->searchTerm)->paginate($this->maxResults);
+        //return Product::search($this->searchTerm)->paginate($this->maxResults);
+        return Product::query()->whereRaw('LOWER(attribute_data) LIKE "%'.strtolower($this->searchTerm).'%"')->paginate($this->maxResults);
     }
 
     public function triggerSelect()
