@@ -101,7 +101,7 @@
             </div>
 
             <div class="mt-4">
-                {{ $this->assets->links() }}
+                {{ $this->assets->onEachSide(2)->links() }}
             </div>
         </x-slot>
 
