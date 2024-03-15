@@ -141,6 +141,8 @@ class VariantShow extends Component
         return array_merge(
             [
                 'newValues' => 'array',
+                'variant.is_available' => 'nullable',
+                'variant.finished_manufacturing' => 'nullable',
                 'variant.stock' => 'required|min:0|numeric|max:10000000',
                 'variant.tax_class_id' => 'required',
                 'variant.length_value' => 'numeric|nullable',

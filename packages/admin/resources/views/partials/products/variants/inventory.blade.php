@@ -27,9 +27,27 @@
         </div>
       </div>
 
-      <x-hub::alert>
+      <div class="flex gap-4">
+          <x-hub::input.group
+                  label="В наявності"
+                  for="is_available"
+                  :error="$errors->first('variant.is_available')"
+          >
+            <x-hub::input.toggle :on-value="true" :off-value="false" wire:model="variant.is_available" id="is_available" />
+          </x-hub::input.group>
+
+        <x-hub::input.group
+                label="Виробництво завершено"
+                for="finished_manufacturing"
+                :error="$errors->first('variant.finished_manufacturing')"
+        >
+          <x-hub::input.toggle :on-value="true" :off-value="false" wire:model="variant.finished_manufacturing" id="finished_manufacturing" />
+        </x-hub::input.group>
+      </div>
+
+      {{--<x-hub::alert>
         {{ __('adminhub::partials.inventory.purchasable.'.$variant->purchasable) }}
-      </x-hub::alert>
+      </x-hub::alert>--}}
     </div>
   </div>
 </div>
