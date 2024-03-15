@@ -471,9 +471,12 @@ abstract class AbstractProduct extends Component
 
             $this->associations->each(function ($assoc) {
                 if (! empty($assoc['id'])) {
-                    ProductAssociation::find($assoc['id'])->update([
-                        'type' => $assoc['type'],
-                    ]);
+					if($dbAssoc = ProductAssociation::find($assoc['id']))
+					{
+						$dbAssoc->update([
+							'type' => $assoc['type'],
+						]);
+					}
 
                     return;
                 }
