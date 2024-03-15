@@ -100,8 +100,8 @@
 
             </div>
 
-            <div class="mt-4">
-                {{ $this->assets->onEachSide(2)->links() }}
+            <div class="mt-4" style="zoom: 0.9">
+                {{ $this->assets->onEachSide(1)->links() }}
             </div>
         </x-slot>
 
