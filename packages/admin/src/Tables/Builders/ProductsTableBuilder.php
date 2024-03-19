@@ -24,10 +24,10 @@ class ProductsTableBuilder extends TableBuilder
             ->withTrashed();
 
         if ($this->searchTerm) {
-			$query->where(function(Builder $query){
+			$query->where(function($query){
 				$query
-					->whereRaw('LOWER(attribute_data) LIKE "%'..'%"')
-					->orWhereRaw('LOWER(attribute_data) LIKE "%'.json_encode(strtolower($this->searchTerm), JSON_UNESCAPED_UNICODE).'%"');
+					->whereRaw('LOWER(attribute_data) LIKE "%'.strtolower($this->searchTerm).'%"')
+					->orWhereRaw('JSON_EXTRACT(attribute_data, "$.name") LIKE "%'.strtolower($this->searchTerm).'%"');
 			});
 
             /*$query->whereIn('id', Product::search($this->searchTerm)
