@@ -2,6 +2,7 @@
 
 namespace Lunar\Hub\Tables\Builders;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Lunar\Hub\Tables\TableBuilder;
 use Lunar\Models\Product;
@@ -23,7 +24,11 @@ class ProductsTableBuilder extends TableBuilder
             ->withTrashed();
 
         if ($this->searchTerm) {
-	        $query->whereRaw('LOWER(attribute_data) LIKE "%'.strtolower($this->searchTerm).'%"');
+			$query->where(function(Builder $query){
+				$query
+					->whereRaw('LOWER(attribute_data) LIKE "%'..'%"')
+					->orWhereRaw('LOWER(attribute_data) LIKE "%'.json_encode(strtolower($this->searchTerm), JSON_UNESCAPED_UNICODE).'%"');
+			});
 
             /*$query->whereIn('id', Product::search($this->searchTerm)
                 ->query(fn ($query) => $query->select('id'))
