@@ -223,7 +223,7 @@
                 <div wire:poll.{{ $poll }}></div>
             @endif
 
-            <div class="lt-overflow-x-auto">
+            <div class="lt-overflow-x-auto" style="overflow: visible">
                 @if (count($this->rows))
                     <table class="lt-min-w-full lt-divide-y lt-divide-gray-200">
                         <thead class="lt-bg-white">
