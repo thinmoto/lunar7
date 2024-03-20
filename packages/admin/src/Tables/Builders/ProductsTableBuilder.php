@@ -27,7 +27,7 @@ class ProductsTableBuilder extends TableBuilder
 			$query->where(function($query){
 				$query
 					->whereRaw('LOWER(attribute_data) LIKE "%'.strtolower($this->searchTerm).'%"')
-					->orWhereRaw('JSON_EXTRACT(attribute_data, "$.name") LIKE "%'.strtolower($this->searchTerm).'%"');
+					->orWhereRaw('JSON_UNQUOTE(JSON_EXTRACT(attribute_data, "$.name.value.uk")) LIKE "%'.strtolower($this->searchTerm).'%"');
 			});
 
             /*$query->whereIn('id', Product::search($this->searchTerm)
