@@ -89,8 +89,17 @@ class ProductSearch extends Component
             return null;
         }
 
+	    $query = Product::query();
+
+	    $query->where(function($query){
+		    $query
+			    ->whereRaw('LOWER(attribute_data) LIKE "%'.strtolower($this->searchTerm).'%"')
+			    ->orWhereRaw('JSON_UNQUOTE(JSON_EXTRACT(attribute_data, "$.name.value.uk")) LIKE "%'.strtolower($this->searchTerm).'%"');
+	    });
+
         //return Product::search($this->searchTerm)->paginate($this->maxResults);
-        return Product::query()->whereRaw('LOWER(attribute_data) LIKE "%'.strtolower($this->searchTerm).'%"')->paginate($this->maxResults);
+        //return Product::query()->whereRaw('LOWER(attribute_data) LIKE "%'.strtolower($this->searchTerm).'%"')->paginate($this->maxResults);
+	    return $query->paginate($this->maxResults);
     }
 
     public function triggerSelect()
