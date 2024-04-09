@@ -13,7 +13,8 @@ class OrdersTableBuilder extends TableBuilder
     /**
      * The field to sort using.
      */
-    public ?string $sortField = 'placed_at';
+    public ?string $sortField = 'id';
+    public ?string $sortDir = 'desc';
 
     /**
      * {@inheritDoc}
@@ -22,14 +23,14 @@ class OrdersTableBuilder extends TableBuilder
     {
         $baseColumns = collect([
             TextColumn::make('status')->sortable(true)->viewComponent('hub::orders.status'),
-            TextColumn::make('reference')->value(function ($record) {
-                return $record->reference;
+            TextColumn::make('id')->sortable(true)->heading('id')->value(function ($record) {
+                return $record->id;
             })->url(function ($record) {
                 return route('hub.orders.show', $record->id);
             }),
-            TextColumn::make('customer_reference')->heading('Customer Reference')->value(function ($record) {
-                return $record->customer_reference;
-            }),
+            // TextColumn::make('customer_reference')->heading('Customer Reference')->value(function ($record) {
+            //     return $record->customer_reference;
+            // }),
             TextColumn::make('customer')->value(function ($record) {
                 return $record->billingAddress?->fullName;
             }),

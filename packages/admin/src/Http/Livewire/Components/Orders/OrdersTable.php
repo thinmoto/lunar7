@@ -241,7 +241,7 @@ class OrdersTable extends Table
             ->queryStringFilters($filters)
             ->perPage($this->perPage)
             ->sort(
-                $this->sortField ?: 'placed_at',
+                $this->sortField ?: 'id',
                 $this->sortDir ?: 'desc',
             )->getData();
     }
