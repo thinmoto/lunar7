@@ -2,7 +2,7 @@
     <header class="flex items-center">
         <h1 class="text-lg font-bold text-gray-900 md:text-2xl">
             <span class="text-gray-500">
-                {{ __('adminhub::components.orders.show.title') }} //
+                {{ __('adminhub::components.orders.show.title') }}
             </span>
 
             #{{ $order->id }}
@@ -42,6 +42,12 @@
             </div>
 
             <div class="p-6 mt-4 bg-white rounded-lg shadow">
+                {{--<div class="p-4 border rounded-lg bg-gray-50">
+                    <ul class="space-y-2 text-sm text-gray-900">
+
+                        111
+                    </ul>
+                </div>--}}
                 <div class="flow-root">
                     <ul class="divide-y divide-gray-100">
                         @include('adminhub::partials.orders.lines')
@@ -77,7 +83,54 @@
                 @endif
 
                 <div class="mt-8">
-                    @include('adminhub::partials.orders.totals')
+                    <div class="p-4 mt-4 border rounded-lg bg-gray-50">
+                        <ul class="space-y-2 text-sm text-gray-900 text-right">
+                            <strong>Всього: {{ $order->total->formatted() }}</strong>
+                        </ul>
+                    </div>
+                    {{--@include('adminhub::partials.orders.totals')--}}
+
+                    <h3 class="mt-6"><strong>Відправка</strong></h3>
+
+                    <div class="flex mt-4 gap-4 items-end">
+                        <div>
+                            <x-hub::input.group label="Відправлено новою поштою"
+                                                for="np_sent"
+                                                :error="$errors->first('meta.np_sent')"
+                                                required>
+                                <x-hub::input.select name="np_sent" wire:model="meta.np_sent" :error="$errors->first('meta.np_sent')">
+                                    <option value="0">Ні</option>
+                                    <option value="1">Так</option>
+                                </x-hub::input.select>
+                            </x-hub::input.group>
+                        </div>
+                        <div>
+                            <x-hub::input.group label="Дата відправки"
+                                                for="name"
+                                                :error="$errors->first('meta.np_sent_date')"
+                                                required>
+                                <x-hub::input.datepicker wire:model="meta.np_sent_date" :options="['format' => 'd.m.Y']" />
+                            </x-hub::input.group>
+                        </div>
+                        <div>
+                            <x-hub::input.group label="ТТН"
+                                                for="name"
+                                                :error="$errors->first('meta.np_ttn')"
+                                                required>
+                                <x-hub::input.text wire:model="meta.np_ttn"
+                                                   name="name"
+                                                   id="name"
+                                                   :error="$errors->first('meta.np_ttn')" />
+                            </x-hub::input.group>
+                        </div>
+                        <div>
+                            <x-hub::button type="button"
+                                           theme="gray"
+                                           wire:click="saveNpMeta">
+                                Зберегти
+                            </x-hub::button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -133,10 +186,11 @@
                     'editTrigger' => 'showShippingAddressEdit',
                     'hidden' => false,
                     'address' => $this->shippingAddress,
+                    'shipping' => isset($order->meta['shipping']) ? $order->meta['shipping'] : false,
                 ])
             </section>
 
-            <section class="p-4 bg-white rounded-lg shadow">
+            {{--<section class="p-4 bg-white rounded-lg shadow">
                 @include('adminhub::partials.orders.address', [
                     'heading' => __('adminhub::components.orders.show.billing_header'),
                     'editTrigger' => 'showBillingAddressEdit',
@@ -144,9 +198,9 @@
                     'message' => __('adminhub::components.orders.show.billing_matches_shipping'),
                     'address' => $this->billingAddress,
                 ])
-            </section>
+            </section>--}}
 
-            <section class="p-4 bg-white rounded-lg shadow">
+            {{--<section class="p-4 bg-white rounded-lg shadow">
                 <header>
                     <strong class="text-gray-700">
                       {{ __('adminhub::components.orders.show.tags_header') }}
@@ -156,11 +210,21 @@
                   'taggable' => $order,
                   'independant' => true,
                 ])
-            </section>
+            </section>--}}
 
-            <section class="p-4 bg-white rounded-lg shadow">
+                <section class="p-4 bg-white rounded-lg shadow">
+                    <header>
+                        <strong class="text-gray-700">
+                            {{ __('adminhub::components.orders.show.payment_header') }}
+                        </strong>
+                    </header>
 
+                    <div class="text-sm mt-4">
+                        <strong>{{ __('adminhub::components.orders.show.payment_method') }}</strong>: {{ isset($order->meta['payment']) ? __('app.payment_title.'.$order->meta['payment']) : false }}
+                    </div>
+                </section>
 
+            {{--<section class="p-4 bg-white rounded-lg shadow">
                 <header>
                     <strong class="text-gray-700">
                         {{ __('adminhub::components.orders.show.additional_fields_header') }}
@@ -184,7 +248,7 @@
                         </div>
                     @endforeach
                 </dl>
-            </section>
+            </section>--}}
 
 
 

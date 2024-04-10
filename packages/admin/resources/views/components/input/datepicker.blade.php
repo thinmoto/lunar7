@@ -1,14 +1,16 @@
 <div
   x-data="{
-    value: @entangle($attributes->wire('model')).defer,
+    value: @entangle($attributes->wire('model')),
     flatpickr: {},
     init() {
       this.$nextTick(() => {
 
         passedOptions = {{ json_encode($options) }}
 
+        format = passedOptions.format || (passedOptions.enableTime ? 'Y-m-d H:i' : 'Y-m-d')
+
         options = {
-            altFormat: passedOptions.enableTime ? 'Y-m-d H:i' : 'Y-m-d',
+            altFormat: format,
             altInput: true,
         }
 

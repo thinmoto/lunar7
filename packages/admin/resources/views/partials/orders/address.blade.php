@@ -14,6 +14,12 @@
   @endif
 </header>
 
+@if($shipping)
+  <div class="text-sm mt-4">
+      <strong>{{ __('adminhub::components.orders.show.shipping_method') }}</strong>: {{ __('app.shipping_title.'.$shipping) }}
+  </div>
+@endif
+
 @if($address->id)
   @if(!$hidden)
   <address class="mt-4 text-sm not-italic text-gray-600">
@@ -43,7 +49,7 @@
 
     {{ $address->country->name }}
 
-    <div class="mt-2">
+{{--    <div class="mt-2">
       <div class="flex items-center">
         <x-hub::icon ref="phone" class="w-4 mr-2" />
         @if($address->contact_phone)
@@ -61,7 +67,7 @@
           <span class="text-xs text-gray-500">{{ __('adminhub::global.not_provided') }}</span>
         @endif
       </div>
-    </div>
+    </div>--}}
   </address>
   @else
     <span class="text-sm text-gray-600">{{ $message ?? null }}</span>

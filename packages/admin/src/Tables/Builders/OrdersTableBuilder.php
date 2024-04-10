@@ -57,7 +57,7 @@ class OrdersTableBuilder extends TableBuilder
 
 
 	        TextColumn::make('payment')->value(function ($record) {
-		        return isset($record->meta['payment']) ? __('app.shipping_title.'.$record->meta['payment']) : '-';
+		        return isset($record->meta['payment']) ? __('app.payment_title.'.$record->meta['payment']) : '-';
 	        }),
 
 	        TextColumn::make('notes')->value(function ($record) {

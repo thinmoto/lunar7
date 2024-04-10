@@ -80,6 +80,8 @@ class OrderShow extends Component
      */
     public bool $showCapture = false;
 
+	public $meta = [];
+
     /**
      * {@inheritDoc}
      */
@@ -132,6 +134,7 @@ class OrderShow extends Component
             'billingAddress.contact_email' => 'nullable|email|max:255',
             'billingAddress.contact_phone' => 'nullable|string|max:255',
             'billingAddress.country_id' => 'required',
+            'meta.*' => 'nullable',
         ];
     }
 
@@ -140,6 +143,12 @@ class OrderShow extends Component
         $this->shippingAddress = $this->order->shippingAddress ?: new OrderAddress();
 
         $this->billingAddress = $this->order->billingAddress ?: new OrderAddress();
+
+		$this->meta = [
+			'np_sent' => isset($this->order->meta['np_sent']) ? $this->order->meta['np_sent'] : '',
+			'np_sent_date' => isset($this->order->meta['np_sent_date']) ? $this->order->meta['np_sent_date'] : '',
+			'np_ttn' => isset($this->order->meta['np_ttn']) ? $this->order->meta['np_ttn'] : '',
+		];
     }
 
     /**
@@ -242,6 +251,17 @@ class OrderShow extends Component
         );
         $this->showUpdateStatus = false;
     }
+
+	public function saveNpMeta()
+	{
+		$meta = $this->order->meta;
+
+		foreach($this->meta as $k => $v)
+			$meta[$k] = $v;
+
+		$this->order->meta = $meta;
+		$this->order->save();
+	}
 
     /**
      * Handler when shipping edit toggle is updated.

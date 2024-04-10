@@ -1,7 +1,7 @@
 @foreach ($this->visibleLines as $line)
     <li class="py-3"
         x-data="{ showDetails: false }">
-        <div class="flex items-start">
+        <div class="flex items-center">
             <div class="flex gap-2">
                 @if ($this->transactions->count())
                     <x-hub::input.checkbox value="{{ $line->id }}"
@@ -23,10 +23,10 @@
                     <div class="relative flex items-center justify-between gap-4 pl-8 xl:justify-end xl:pl-0 xl:order-last"
                          x-data="{ showMenu: false }">
                         <p class="text-sm font-medium text-gray-700">
-                            {{ $line->quantity }} @ {{ $line->unit_price->formatted }}
+                            {{ $line->quantity }} x {{ $line->unit_price->formatted }}
 
                             <span class="ml-1">
-                                {{ $line->sub_total->formatted }}
+                                = {{ $line->sub_total->formatted }}
                             </span>
                         </p>
 

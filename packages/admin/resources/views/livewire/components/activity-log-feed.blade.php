@@ -44,6 +44,7 @@
 
                         <ul class="mt-4 space-y-6">
                             @foreach ($log['items'] as $item)
+                                @if (count($item['renderers']))
                                 <li class="relative pl-8">
                                     <div @class([
                                         'absolute top-[2px]',
@@ -93,6 +94,7 @@
                                         </time>
                                     </div>
                                 </li>
+                                @endif
                             @endforeach
                         </ul>
                     </li>
