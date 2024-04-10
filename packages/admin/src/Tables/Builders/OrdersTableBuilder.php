@@ -67,18 +67,18 @@ class OrdersTableBuilder extends TableBuilder
 	        }),
 
 	        TextColumn::make('manager_notes')->value(function ($record) {
-		        return isset($record->meta['manager_notes']) ? $record->meta['manager_notes'] : '';
+		        $comment = Activity::query()
+			        ->where('subject_type', 'Lunar\\Models\\Order')
+			        ->where('subject_id', $record->id)
+			        ->where('event', 'comment')
+			        ->orderByDesc('id')
+			        ->first();
+
+		        return $comment ? $comment->properties->get('content') : '';
 	        }),
 
 	        TextColumn::make('dont_call')->value(function ($record) {
-				$comment = Activity::query()
-					->where('subject_type', 'Lunar\\\Models\\\Order')
-					->where('subject_id', $record->id)
-					->where('event', 'comment')
-					->orderByDesc('id')
-					->first();
-
-		        return $comment ? $comment->properties->get('content') : '';
+		        return isset($record->meta['dont_call']) ? __('adminhub::orders.index.dont_call') : '';
 	        }),
 
             // TextColumn::make('customer_reference')->heading('Customer Reference')->value(function ($record) {
