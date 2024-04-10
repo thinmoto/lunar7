@@ -4,10 +4,12 @@ namespace Lunar\Hub\Tables\Builders;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Lunar\Hub\Tables\TableBuilder;
 use Lunar\LivewireTables\Components\Columns\TagsColumn;
 use Lunar\LivewireTables\Components\Columns\TextColumn;
 use Lunar\Models\Order;
+use Spatie\Activitylog\Models\Activity;
 
 class OrdersTableBuilder extends TableBuilder
 {
@@ -61,7 +63,7 @@ class OrdersTableBuilder extends TableBuilder
 	        }),
 
 	        TextColumn::make('notes')->value(function ($record) {
-		        return isset($record->meta['notes']) ? $record->meta['notes'] : '';
+		        return isset($record->meta['notes']) ? Str::words($record->meta['notes'], 5) : '';
 	        }),
 
 	        TextColumn::make('manager_notes')->value(function ($record) {
@@ -69,7 +71,14 @@ class OrdersTableBuilder extends TableBuilder
 	        }),
 
 	        TextColumn::make('dont_call')->value(function ($record) {
-		        return isset($record->meta['dont_call']) ? __('adminhub::orders.index.dont_call') : '';
+				$comment = Activity::query()
+					->where('subject_type', 'Lunar\\\Models\\\Order')
+					->where('subject_id', $record->id)
+					->where('event', 'comment')
+					->orderByDesc('id')
+					->first();
+
+		        return $comment ? $comment->properties->get('content') : '';
 	        }),
 
             // TextColumn::make('customer_reference')->heading('Customer Reference')->value(function ($record) {
