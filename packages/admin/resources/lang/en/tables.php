@@ -51,5 +51,9 @@ return [
     'headings.type' => 'Type',
     'headings.tags' => 'Tags',
     'headings.new_customer' => 'New Customer',
-    'headings.new_returning' => 'New/Returning Customers',
+    'headings.shipping' => 'Shipping',
+    'headings.payment' => 'Payment',
+    'headings.notes' => 'Notes',
+    'headings.manager_notes' => 'Manager notes',
+    'headings.dont_call' => 'Dont call',
 ];

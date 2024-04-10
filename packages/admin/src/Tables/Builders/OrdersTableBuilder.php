@@ -2,6 +2,7 @@
 
 namespace Lunar\Hub\Tables\Builders;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Lunar\Hub\Tables\TableBuilder;
 use Lunar\LivewireTables\Components\Columns\TagsColumn;
@@ -22,36 +23,66 @@ class OrdersTableBuilder extends TableBuilder
     public function getColumns(): Collection
     {
         $baseColumns = collect([
+	        TextColumn::make('id')->sortable(true)->heading('id')->value(function ($record) {
+		        return $record->id;
+	        })->url(function ($record) {
+		        return route('hub.orders.show', $record->id);
+	        }),
+
+	        TextColumn::make('date')->value(function ($record) {
+		        return $record->placed_at?->format('d.m.Y H:i');
+	        }),
+
             TextColumn::make('status')->sortable(true)->viewComponent('hub::orders.status'),
-            TextColumn::make('id')->sortable(true)->heading('id')->value(function ($record) {
-                return $record->id;
-            })->url(function ($record) {
-                return route('hub.orders.show', $record->id);
-            }),
+
+	        TextColumn::make('total')->value(function ($record) {
+		        return $record->total->formatted;
+	        }),
+
+	        TextColumn::make('email')->value(function ($record) {
+		        return $record->billingAddress?->contact_email;
+	        }),
+
+	        TextColumn::make('customer')->value(function ($record) {
+		        return $record->billingAddress?->fullName;
+	        }),
+
+	        TextColumn::make('phone')->value(function ($record) {
+		        return $record->billingAddress?->contact_phone;
+	        }),
+
+	        TextColumn::make('shipping')->value(function ($record) {
+		        return isset($record->meta['shipping']) ? __('app.shipping_title.'.$record->meta['shipping']) : '-';
+	        }),
+
+
+	        TextColumn::make('payment')->value(function ($record) {
+		        return isset($record->meta['payment']) ? __('app.shipping_title.'.$record->meta['payment']) : '-';
+	        }),
+
+	        TextColumn::make('notes')->value(function ($record) {
+		        return isset($record->meta['notes']) ? $record->meta['notes'] : '';
+	        }),
+
+	        TextColumn::make('manager_notes')->value(function ($record) {
+		        return isset($record->meta['manager_notes']) ? $record->meta['manager_notes'] : '';
+	        }),
+
+	        TextColumn::make('dont_call')->value(function ($record) {
+		        return isset($record->meta['dont_call']) ? __('adminhub::orders.index.dont_call') : '';
+	        }),
+
             // TextColumn::make('customer_reference')->heading('Customer Reference')->value(function ($record) {
             //     return $record->customer_reference;
             // }),
-            TextColumn::make('customer')->value(function ($record) {
-                return $record->billingAddress?->fullName;
-            }),
-            TextColumn::make('postcode')->value(function ($record) {
-                return $record->billingAddress?->postcode;
-            }),
-            TextColumn::make('email')->value(function ($record) {
-                return $record->billingAddress?->contact_email;
-            }),
-            TextColumn::make('phone')->value(function ($record) {
-                return $record->billingAddress?->contact_phone;
-            }),
-            TextColumn::make('total')->value(function ($record) {
-                return $record->total->formatted;
-            }),
-            TextColumn::make('date')->value(function ($record) {
-                return $record->placed_at?->format('Y/m/d @ H:ia');
-            }),
-            TagsColumn::make('tags')->value(function ($record) {
-                return $record->tags->pluck('value');
-            }),
+
+            // TextColumn::make('postcode')->value(function ($record) {
+            //     return $record->billingAddress?->postcode;
+            // }),
+
+            // TagsColumn::make('tags')->value(function ($record) {
+            //     return $record->tags->pluck('value');
+            // }),
         ]);
 
         return $this->resolveColumnPositions(
@@ -79,7 +110,14 @@ class OrdersTableBuilder extends TableBuilder
             'tags',
         ])->orderBy($this->sortField, $this->sortDir);
 
-        if ($this->searchTerm) {
+        if ($this->searchTerm)
+		{
+			// $query->where(function(Builder $query){
+			// 	$query->where('id', 'like', $this->searchTerm.'%')
+			// 		->orWhereRaw('LOWER(shipping_breakdown) LIKE "%'.strtolower($this->searchTerm).'%"')
+			// 		->orWhereRaw('JSON_UNQUOTE(JSON_EXTRACT(shipping_breakdown, "$.*.name.uk")) LIKE "%'.strtolower($this->searchTerm).'%"');
+			// });
+
             $query->whereIn('id', Order::search($this->searchTerm)
                 ->query(fn ($query) => $query->select('id'))
                 ->take(200)
