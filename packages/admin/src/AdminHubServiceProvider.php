@@ -118,6 +118,7 @@ use Lunar\Hub\Http\Livewire\Components\Settings\Taxes\TaxZoneCreate;
 use Lunar\Hub\Http\Livewire\Components\Settings\Taxes\TaxZoneShow;
 use Lunar\Hub\Http\Livewire\Components\Settings\Taxes\TaxZonesIndex;
 use Lunar\Hub\Http\Livewire\Components\Tables\Actions\UpdateStatus;
+use Lunar\Hub\Http\Livewire\Components\Tables\Actions\Delete;
 use Lunar\Hub\Http\Livewire\Components\Tags;
 use Lunar\Hub\Http\Livewire\Dashboard;
 use Lunar\Hub\Http\Middleware\Authenticate;
@@ -334,6 +335,7 @@ class AdminHubServiceProvider extends ServiceProvider
         Livewire::component('hub.components.orders.capture', OrderCapture::class);
         Livewire::component('hub.components.orders.status', OrderStatus::class);
         Livewire::component('hub.components.tables.actions.update-status', UpdateStatus::class);
+        Livewire::component('hub.components.tables.actions.delete', Delete::class);
         Livewire::component('hub.components.orders.emil-notification', EmailNotification::class);
 
         Livewire::component('hub.components.orders.table', OrdersTable::class);

@@ -188,9 +188,9 @@
                         <div class="lt--my-4 lt-divide-y lt-divide-gray-100">
                             <div :hidden="!selectedRows.length"
                                  class="py-4">
-                                <p class="lt-text-sm lt-font-medium lt-text-gray-900">
+                                {{--<p class="lt-text-sm lt-font-medium lt-text-gray-900">
                                     Bulk Actions
-                                </p>
+                                </p>--}}
 
                                 <div class="lt-flex lt-flex-wrap lt-gap-4 lt-mt-2" wire:ignore>
                                     @foreach ($this->bulkActions as $action)

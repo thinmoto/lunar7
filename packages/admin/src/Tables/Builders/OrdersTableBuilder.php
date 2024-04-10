@@ -32,7 +32,7 @@ class OrdersTableBuilder extends TableBuilder
 	        }),
 
 	        TextColumn::make('date')->value(function ($record) {
-		        return $record->placed_at?->format('d.m.Y H:i');
+		        return $record->created_at?->format('d.m.Y H:i');
 	        }),
 
             TextColumn::make('status')->sortable(true)->viewComponent('hub::orders.status'),
@@ -118,6 +118,8 @@ class OrdersTableBuilder extends TableBuilder
             'customer',
             'tags',
         ])->orderBy($this->sortField, $this->sortDir);
+
+		$query->whereNot('status', 'deleted');
 
         if ($this->searchTerm)
 		{

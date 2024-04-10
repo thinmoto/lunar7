@@ -44,14 +44,14 @@
     @if(!$order->placed_at)
         <div class="grid grid-cols-2 gap-2 px-4 py-3 border-b">
             <dt class="font-medium text-gray-500">{{ __('adminhub::partials.orders.details.date_created') }}</dt>
-            <dd class="text-right">{{ $order->created_at->format('Y-m-d h:ia') }}</dd>
+            <dd class="text-right">{{ $order->created_at->format('d.m.Y H:i') }}</dd>
         </div>
     @else
         <div class="grid grid-cols-2 gap-2 px-4 py-3 border-b">
             <dt class="font-medium text-gray-500">{{ __('adminhub::partials.orders.details.date_created') }}</dt>
             <dd class="text-right">
                 @if($order->placed_at)
-                    {{ $order->placed_at->format('Y-m-d h:ia') }}
+                    {{ $order->placed_at->format('d.m.Y H:i') }}
                 @else
                     -
                 @endif
@@ -96,6 +96,8 @@
             @endif
         </dd>
     </div>
+
+    <livewidele
 
     <div class="grid grid-cols-2 gap-2 px-4 py-3 border-b">
         <dt class="font-medium text-gray-500">{{ __('adminhub::partials.orders.details.email') }}</dt>

@@ -159,8 +159,17 @@ class OrdersTable extends Table
 
         $this->tableBuilder->addBulkAction(
             BulkAction::make('update_status')
-                ->label('Update Status')
+                ->label('Змінити статус')
                 ->livewire('hub.components.tables.actions.update-status')
+        );
+
+        $this->tableBuilder->addBulkAction(
+            BulkAction::make('delete')
+                ->label(__('Видалити'))
+	            ->livewire('hub.components.tables.actions.delete')
+                ->url(function($record){
+	                return route('hub.orders.delete');
+                })
         );
     }
 

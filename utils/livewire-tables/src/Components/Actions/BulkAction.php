@@ -49,6 +49,9 @@ class BulkAction extends Action
      */
     public function render()
     {
+		if(!empty($this->url))
+			return response()->redirectTo(call_user_func($this->url));
+
         return view('l-tables::actions.bulk', [
             'label' => $this->label,
             'selectedIds' => $this->selectedIds,
