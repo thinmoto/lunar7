@@ -66,7 +66,7 @@ class ProductVariantsTable extends Table
                 return $price->price->formatted;
             }),
             TextColumn::make('stock'),
-            TextColumn::make('backorder'),
+            TextColumn::make('gtin')->heading(__('adminhub::inputs.gtin.label')),
         ]);
     }
 
