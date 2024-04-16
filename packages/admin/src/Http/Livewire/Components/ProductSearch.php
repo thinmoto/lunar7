@@ -93,8 +93,8 @@ class ProductSearch extends Component
 
 	    $query->where(function($query){
 		    $query
-			    ->whereRaw('LOWER(attribute_data) LIKE "%'.strtolower($this->searchTerm).'%"')
-			    ->orWhereRaw('JSON_UNQUOTE(JSON_EXTRACT(attribute_data, "$.name.value.uk")) LIKE "%'.strtolower($this->searchTerm).'%"');
+			    ->whereRaw('LOWER(attribute_data) LIKE "%'.strtolower(addslashes($this->searchTerm)).'%"')
+			    ->orWhereRaw('JSON_UNQUOTE(JSON_EXTRACT(attribute_data, "$.name.value.uk")) LIKE "%'.strtolower(addslashes($this->searchTerm)).'%"');
 	    });
 
         //return Product::search($this->searchTerm)->paginate($this->maxResults);
