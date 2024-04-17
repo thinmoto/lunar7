@@ -7,6 +7,7 @@
 @import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 
 @import 'quill/dist/quill.snow.css';
+@import 'quill-image-uploader/dist/quill.imageUploader.min.css';
 
 [x-cloak] {
   display: none;

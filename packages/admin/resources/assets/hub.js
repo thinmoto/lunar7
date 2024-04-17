@@ -9,8 +9,11 @@ window.FilePondPluginImagePreview = require('filepond-plugin-image-preview');
 window.FilePondPluginFileValidateSize = require('filepond-plugin-file-validate-size');
 window.FilePondPluginFileValidateType = require('filepond-plugin-file-validate-type');
 
-import { ImageUpload } from 'quill-image-upload';
-Quill.register('modules/imageUpload', ImageUpload);
+// import { ImageUpload } from 'quill-image-upload';
+// window.Quill.register('modules/imageUpload', ImageUpload);
+
+import ImageUploader from "quill-image-uploader";
+Quill.register("modules/imageUploader", ImageUploader);
 
 window.Sortable = Sortable;
 
