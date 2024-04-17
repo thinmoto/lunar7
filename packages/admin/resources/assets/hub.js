@@ -9,6 +9,9 @@ window.FilePondPluginImagePreview = require('filepond-plugin-image-preview');
 window.FilePondPluginFileValidateSize = require('filepond-plugin-file-validate-size');
 window.FilePondPluginFileValidateType = require('filepond-plugin-file-validate-type');
 
+import { ImageUpload } from 'quill-image-upload';
+Quill.register('modules/imageUpload', ImageUpload);
+
 window.Sortable = Sortable;
 
 if (typeof window.livewire === 'undefined') {
