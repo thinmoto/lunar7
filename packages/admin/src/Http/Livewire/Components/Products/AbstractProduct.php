@@ -717,7 +717,7 @@ abstract class AbstractProduct extends Component
      * @param  array  $selectedIds
      * @return void
      */
-    public function updateAssociations($selectedIds)
+    public function updateAssociations($selectedIds, $ref)
     {
         $selectedProducts = Product::findMany($selectedIds)->map(function ($product) {
             return [

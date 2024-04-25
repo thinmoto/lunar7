@@ -64,6 +64,32 @@ class ProductsTable extends Table
                 }
             })
         );
+		
+        $this->tableBuilder->addFilter(
+            SelectFilter::make('collection')->options(function () {
+				$collections = \Lunar\Models\Collection::query()
+					->whereNull('parent_id')
+					->get();
+
+	            $collections = $collections->mapWithKeys(function(\Lunar\Models\Collection $collect){
+					return [$collect->id => $collect->translateAttribute('name')];
+	            });
+
+	            $collections->prepend('All', null);
+
+                return $collections;
+            })->query(function ($filters, $query) {
+                $value = $filters->get('collection');
+
+                if ($value) {
+	                $tree = \Lunar\Models\Collection::find($value)->getChildsTree()->pluck('id', 'id')->keys()->toArray();
+
+                    $query->whereRelation('collections', function($query) use ($tree){
+						$query->whereIn('collection_id', $tree);
+                    });
+                }
+            })
+        );
 
         $this->tableBuilder->addFilter(
             CheckboxFilter::make('deleted')->query(function ($filters, $query) {

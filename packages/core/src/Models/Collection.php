@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Kalnoy\Nestedset\NodeTrait;
 use Lunar\Base\BaseModel;
 use Lunar\Base\Casts\AsAttributeData;
@@ -120,4 +121,21 @@ class Collection extends BaseModel implements SpatieHasMedia
             'ends_at',
         ])->withTimestamps();
     }
+
+	public function childs(): HasMany
+	{
+		return $this->hasMany(\Lunar\Models\Collection::class, 'parent_id', 'id');
+	}
+
+	public function getChildsTree(): \Illuminate\Support\Collection
+	{
+		$out = collect();
+		$out->prepend($this, $this->id);
+
+		foreach($this->childs as $child)
+			foreach($child->getChildsTree() as $ch)
+				$out->prepend($ch, $ch->id);
+
+		return $out->reverse();
+	}
 }
