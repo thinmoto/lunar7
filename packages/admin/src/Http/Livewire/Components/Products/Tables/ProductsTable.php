@@ -41,6 +41,8 @@ class ProductsTable extends Table
         'saveSearch' => 'handleSaveSearch',
     ];
 
+	public $tableClass = 'compact';
+
     /**
      * {@inheritDoc}
      */
@@ -131,20 +133,20 @@ class ProductsTable extends Table
             })->heading(
                 __('adminhub::tables.headings.name')
             ),
-            TextColumn::make('brand.name')->heading(
-                __('adminhub::tables.headings.brand')
-            ),
-            TextColumn::make('sku', function ($record) {
-                $skus = $record->variants()->pluck('sku');
-
-                if ($skus->count() > 1) {
-                    return 'Multiple';
-                }
-
-                return $skus->first();
-            })->heading(
-                __('adminhub::tables.headings.sku')
-            ),
+            // TextColumn::make('brand.name')->heading(
+            //     __('adminhub::tables.headings.brand')
+            // ),
+            // TextColumn::make('sku', function ($record) {
+            //     $skus = $record->variants()->pluck('sku');
+			//
+            //     if ($skus->count() > 1) {
+            //         return 'Multiple';
+            //     }
+			//
+            //     return $skus->first();
+            // })->heading(
+            //     __('adminhub::tables.headings.sku')
+            // ),
             TextColumn::make('stock', function ($record) {
                 return $record->variants()->sum('stock');
             })->heading(

@@ -30,6 +30,7 @@ class Table extends Component
      * @var bool
      */
     public $hasPagination = true;
+	public $tableClass = '';
 
     /**
      * Whether this table is searchable.
