@@ -14,8 +14,8 @@
 
         <div class="space-y-2">
             @foreach ($collections as $index => $collection)
-                <div wire:key="collection_{{ $index }}">
-                    <div class="flex items-center px-4 py-2 text-sm border rounded">
+                <div wire:key="collection_{{ $index }}" class="flex gap-4 items-center">
+                    <div class="flex items-center px-4 py-2 text-sm border rounded w-full">
                         @if ($collection['thumbnail'])
                             <span class="flex-shrink-0 block w-12 mr-4">
                                 <img src="{{ $collection['thumbnail'] }}"
@@ -78,6 +78,14 @@
                                 </x-hub::dropdown>
                             </div>
                         </div>
+                    </div>
+
+                    <div>
+                        Сортування:
+                    </div>
+
+                    <div>
+                        <x-hub::input.text type="number" style="width: 100px;" wire:model="collections.{{ $index }}.position" />
                     </div>
                 </div>
             @endforeach
