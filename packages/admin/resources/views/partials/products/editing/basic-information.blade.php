@@ -7,7 +7,7 @@
     </header>
 
     <div class="space-y-4">
-      <x-hub::input.group
+      {{--<x-hub::input.group
         :label="__('adminhub::inputs.brand.label')"
         for="brand"
         :errors="$errors->get('product.brand_id') ?: $errors->get('brand')"
@@ -38,7 +38,7 @@
 
             </div>
         </div>
-      </x-hub::input.group>
+      </x-hub::input.group>--}}
 
       <x-hub::input.group :label="__('adminhub::inputs.product-type.label')" for="productType">
         <x-hub::input.select id="productType" wire:model="product.product_type_id">

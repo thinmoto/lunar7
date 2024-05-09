@@ -860,6 +860,14 @@ abstract class AbstractProduct extends Component
                     'product.product_type_id',
                 ]),
             ],
+	        [
+		        'title' => __('adminhub::menu.product.collections'),
+		        'id' => 'collections',
+		        'hidden' => false,
+		        'has_errors' => $this->errorBag->hasAny([
+			        'collections',
+		        ]),
+	        ],
             [
                 'title' => __('adminhub::menu.product.attributes'),
                 'id' => 'attributes',
@@ -952,14 +960,6 @@ abstract class AbstractProduct extends Component
                 'hidden' => false,
                 'has_errors' => $this->errorBag->hasAny([
                     'associations',
-                ]),
-            ],
-            [
-                'title' => __('adminhub::menu.product.collections'),
-                'id' => 'collections',
-                'hidden' => false,
-                'has_errors' => $this->errorBag->hasAny([
-                    'collections',
                 ]),
             ],
         ])->reject(fn ($item) => ($item['hidden'] ?? false));

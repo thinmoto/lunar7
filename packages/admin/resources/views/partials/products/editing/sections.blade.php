@@ -56,6 +56,10 @@
                 @include('adminhub::partials.products.editing.basic-information')
             </div>
 
+            <div id="collections">
+                @include('adminhub::partials.products.editing.collections')
+            </div>
+
             <div id="attributes">
                 @include('adminhub::partials.attributes')
             </div>
@@ -115,10 +119,6 @@
 
             <div id="associations">
                 @include('adminhub::partials.products.editing.associations')
-            </div>
-
-            <div id="collections">
-                @include('adminhub::partials.products.editing.collections')
             </div>
 
             @foreach ($this->getSlotsByPosition('bottom') as $slot)

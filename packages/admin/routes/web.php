@@ -9,6 +9,12 @@ use Lunar\Hub\Http\Livewire\Pages\Authentication\PasswordReset;
 use Lunar\Hub\Http\Middleware\Authenticate;
 use Lunar\Hub\Http\Middleware\RedirectIfAuthenticated;
 
+
+
+Route::any('/dummy/lunar.hub.quill-upload', function () {
+    return response()->status(200);
+})->name('lunar.hub.quill-upload');
+
 Route::group([
     'prefix' => config('lunar-hub.system.path', 'hub'),
     'middleware' => config('lunar-hub.system.middleware', ['web']),
