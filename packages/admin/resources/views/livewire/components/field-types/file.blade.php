@@ -1,16 +1,14 @@
-<div class="space-y-4">
-    <div class="flex justify-end">
-        <x-hub::button wire:click="$set('showUploader', true)">
-            {{ __('adminhub::fieldtypes.file.choose_assets') }}
-        </x-hub::button>
-    </div>
+<div class="space-y-3">
+    <div class="flex gap-4 items-center">
+        <div>
+            {{ $title }}:
+        </div>
 
-    <div class="grid grid-cols-2 gap-4 lg:grid-cols-3">
         @foreach ($this->selectedModels as $index => $assetModel)
-            <div class="flex items-center justify-between gap-4 p-2 border rounded"
+            <div class="flex items-center justify-between gap-2"
                  wire:key="initial_asset_{{ $assetModel->id }}">
-                <div class="flex items-center gap-4 overflow-hidden">
-                    <div class="w-12 h-12 p-2 border rounded shrink-0">
+                <div class="">
+                    {{--<div class="w-12 h-12 p-2 border rounded shrink-0">
                         @if ($assetModel->file->hasGeneratedConversion('small'))
                             <a href="{{ $assetModel->file->getUrl('large') }}"
                                target="_blank"
@@ -22,21 +20,25 @@
                             <x-hub::icon ref="document"
                                          class="w-8 h-8 mx-auto text-gray-400" />
                         @endif
-                    </div>
+                    </div>--}}
 
                     <p class="text-xs truncate">
-                      {{ $assetModel->file->file_name }}
+                        {{ $assetModel->file->file_name }}
                     </p>
                 </div>
 
                 <button type="button"
                         wire:click="removeSelected({{ $assetModel->id }})"
-                        class="p-0.5 rounded hover:bg-gray-100 shrink-0">
+                        class="p-0.5 rounded hover:bg-gray-100 shrink-0 text-red-800">
                     <x-hub::icon ref="x"
                                  class="w-4 h-4" />
                 </button>
             </div>
         @endforeach
+
+        <x-hub::button wire:click="$set('showUploader', true)" size="xs">
+            {{ __('adminhub::fieldtypes.file.choose_assets') }}
+        </x-hub::button>
     </div>
 
     <x-hub::modal.dialog wire:model="showUploader">

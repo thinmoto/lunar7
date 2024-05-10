@@ -9,21 +9,40 @@
         </header>
         <div class="space-y-4">
           @foreach($group['fields'] as $attIndex => $field)
-            <div wire:key="attributes_{{ $field['handle'] }}">
-              <x-hub::input.group
-                :label="$field['name']"
-                :for="$field['handle']"
-                :required="$field['required']"
-                :error="
-                  $errors->first(($mapping ?? 'attributeMapping').'.'.$attIndex.'.data') ?:
-                  $errors->first(($mapping ?? 'attributeMapping').'.'.$attIndex.'.data.'.$this->defaultLanguage->code)
-                "
-              >
-                @include($field['view'], [
-                  'field' => $field,
-                ])
-              </x-hub::input.group>
-            </div>
+              @if($group['model']->handle = 'product_faili')
+                    <div wire:key="attributes_{{ $field['handle'] }}">
+                      <x-hub::input.group
+                        label=" "
+                        :for="$field['handle']"
+                        :required="$field['required']"
+                        :error="
+                          $errors->first(($mapping ?? 'attributeMapping').'.'.$attIndex.'.data') ?:
+                          $errors->first(($mapping ?? 'attributeMapping').'.'.$attIndex.'.data.'.$this->defaultLanguage->code)
+                        "
+                      >
+                        @include($field['view'], [
+                          'field' => $field,
+                          'title' => 'xxx'
+                        ])
+                      </x-hub::input.group>
+                    </div>
+                @else
+                    <div wire:key="attributes_{{ $field['handle'] }}">
+                        <x-hub::input.group
+                                :label="$field['name']"
+                                :for="$field['handle']"
+                                :required="$field['required']"
+                                :error="
+                          $errors->first(($mapping ?? 'attributeMapping').'.'.$attIndex.'.data') ?:
+                          $errors->first(($mapping ?? 'attributeMapping').'.'.$attIndex.'.data.'.$this->defaultLanguage->code)
+                        "
+                        >
+                            @include($field['view'], [
+                              'field' => $field,
+                            ])
+                        </x-hub::input.group>
+                    </div>
+                @endif
           @endforeach
         </div>
       </div>

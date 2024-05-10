@@ -47,6 +47,7 @@ class FileFieldtype extends Component
     public $signature;
 
 	public $searchTerm;
+	public $title;
 
     /**
      * {@inheritDoc}
