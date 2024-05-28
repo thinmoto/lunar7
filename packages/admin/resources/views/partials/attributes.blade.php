@@ -9,7 +9,7 @@
         </header>
         <div class="space-y-4">
           @foreach($group['fields'] as $attIndex => $field)
-              @if($group['model']->handle = 'product_faili')
+              @if($group['model']->handle == 'product_faili')
                     <div wire:key="attributes_{{ $field['handle'] }}">
                       <x-hub::input.group
                         label=" "
