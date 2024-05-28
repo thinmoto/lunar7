@@ -495,8 +495,8 @@ abstract class AbstractProduct extends Component
             $this->collections->each(function ($collection) {
                 $this->product->collections()
                     ->syncWithoutDetaching(
-                        [$collection['id'] => ['position' => $collection['position']]],
-                        ['position' => $collection['position']]
+                        [$collection['id'] => ['position' => $collection['position'] ?? 1]],
+                        ['position' => $collection['position'] ?? 1]
                     );
             });
 
