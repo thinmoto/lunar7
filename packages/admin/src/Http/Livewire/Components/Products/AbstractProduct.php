@@ -351,6 +351,8 @@ abstract class AbstractProduct extends Component
      */
     public function save()
     {
+	    $this->product->brand_id = 1;
+		
         $this->withValidator(function (Validator $validator) {
             $validator->after(function ($validator) {
                 if ($validator->errors()->count()) {
