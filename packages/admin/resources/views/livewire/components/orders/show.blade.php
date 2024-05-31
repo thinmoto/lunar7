@@ -222,6 +222,36 @@
                     <div class="text-sm mt-4">
                         <strong>{{ __('adminhub::components.orders.show.payment_method') }}</strong>: {{ isset($order->meta['payment']) ? __('app.payment_title.'.$order->meta['payment']) : false }}
                     </div>
+
+                    @if(isset($order->meta['payment']) && $order->meta['payment'] == 'card')
+                        <div class="text-sm mt-4">
+                            <strong>{{ __('adminhub::components.orders.show.payment_state') }}</strong>:
+
+                            @if(isset($order->meta['payment_state']))
+                                @if($order->meta['payment_state'] == 'ok')
+                                    <span class="inline-block px-2 py-1 text-xs text-white rounded" style="background: #81bb6c;">
+                                        <span class="whitespace-nowrap">Оплачено</span>
+                                    </span>
+                                @endif
+
+                                @if($order->meta['payment_state'] == 'fail')
+                                    <span class="inline-block px-2 py-1 text-xs text-white rounded" style="background: #bb6c6c;">
+                                        <span class="whitespace-nowrap">Не оплачено</span>
+                                    </span>
+                                @endif
+
+                                @if($order->meta['payment_state'] == 'wait')
+                                    <span class="inline-block px-2 py-1 text-xs text-white rounded" style="background: #6ca3bb;">
+                                        <span class="whitespace-nowrap">Чекаємо оплату</span>
+                                    </span>
+                                @endif
+                            @else
+                                <span class="inline-block px-2 py-1 text-xs text-white rounded" style="background: #848a8c;">
+                                    <span class="whitespace-nowrap">невідомо</span>
+                                </span>
+                            @endif
+                        </div>
+                    @endif
                 </section>
 
             {{--<section class="p-4 bg-white rounded-lg shadow">

@@ -97,8 +97,6 @@
         </dd>
     </div>
 
-    <livewidele
-
     <div class="grid grid-cols-2 gap-2 px-4 py-3 border-b">
         <dt class="font-medium text-gray-500">{{ __('adminhub::partials.orders.details.email') }}</dt>
         <dd class="text-right">
