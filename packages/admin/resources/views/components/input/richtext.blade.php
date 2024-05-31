@@ -7,9 +7,9 @@
 
           const fullToolbarOptions = [
                   [{ header: [1, 2, 3, false] }],
-                  ['bold', 'italic', 'underline'], [{ 'color': [] }, { 'background': [] }],
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-                ['image', 'alt']
+                  ['bold', 'italic', 'underline'], ['link'], [{ 'color': [] }, { 'background': [] }],
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],[{ 'indent': '-1'}, { 'indent': '+1' }],
+                ['image', 'alt'],['clean']
           ];
 
           options.modules = {
