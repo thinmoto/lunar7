@@ -421,6 +421,9 @@ class CollectionGroupShow extends Component
             ]),
         ], $this->collectionParent);
 
+	    if($this->collectionParent)
+		    $collection->update(['parent_id' => $this->collectionParent->id]);
+
         if ($this->slug) {
             $collection->urls()->create([
                 'slug' => $this->slug,
