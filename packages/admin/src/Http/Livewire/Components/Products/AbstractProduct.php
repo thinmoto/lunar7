@@ -701,6 +701,9 @@ abstract class AbstractProduct extends Component
 
                 $product = $inverse ? $assoc->parent : $assoc->target;
 
+                if(!$product)
+                    return;
+
                 return [
                     'id' => $assoc->id,
                     'inverse' => $inverse,
