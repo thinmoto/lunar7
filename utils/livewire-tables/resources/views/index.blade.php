@@ -251,7 +251,7 @@
                                 @endforeach
 
                                 @if (count($this->actions))
-                                    <td></td>
+                                    <td width="1%">{{ __('adminhub::global.actions') }}</td>
                                 @endif
                             </tr>
 

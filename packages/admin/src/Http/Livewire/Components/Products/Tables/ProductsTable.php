@@ -69,9 +69,16 @@ class ProductsTable extends Table
 		
         $this->tableBuilder->addFilter(
             SelectFilter::make('collection')->options(function () {
-				$collections = \Lunar\Models\Collection::query()
+                $collections = collect();
+
+				$collectionsTop = \Lunar\Models\Collection::query()
 					->whereNull('parent_id')
 					->get();
+
+                foreach($collections as $collectionsTop)
+                {
+                    $collections->push();
+                }
 
 	            $collections = $collections->mapWithKeys(function(\Lunar\Models\Collection $collect){
 					return [$collect->id => $collect->translateAttribute('name')];
