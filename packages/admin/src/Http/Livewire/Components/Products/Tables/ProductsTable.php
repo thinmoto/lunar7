@@ -66,6 +66,55 @@ class ProductsTable extends Table
                 }
             })
         );
+
+        $this->tableBuilder->addFilter(
+            SelectFilter::make('available')->options(function () {
+                $statuses = collect([
+                    'avail' => 'В наявності',
+                    'not_avail' => 'Не в наявності',
+                ]);
+
+                return collect([
+                    null => 'Всі',
+                ])->merge($statuses);
+            })->query(function ($filters, $query) {
+                $value = $filters->get('available');
+
+                if ($value == 'avail')
+                {
+                    $query->whereRelation('variants', function(Builder $query){
+                        $query->where(function(Builder $query){
+                            $query->where('purchasable', 'in_stock')->where('stock', '>', 0);
+                        })
+                        ->orWhere(function(Builder $query){
+                            $query->where('purchasable', 'backorder')->where('backorder', '>', 0);
+                        })
+                        ->orWhere(function(Builder $query){
+                            $query->where('purchasable', 'always');
+                        });
+                    });
+                }
+                elseif($value == 'not_avail')
+                {
+                    // $query->whereRelation('variants', function(Builder $query){
+                    //     $query->where(function(Builder $query){
+                    //         $query
+                    //             ->whereNot('purchasable', 'in_stock')->where('stock', '>', 0)
+                    //             ->whereNot('purchasable', 'backorder')->where('backorder', '>', 0)
+                    //             ->whereNot(function(Builder $query){
+                    //              $query->where('purchasable', 'always');
+                    //         });
+                    //     });
+                    // });
+
+                    $query->whereRaw('(SELECT COUNT(id) FROM lunar_product_variants WHERE 
+                        ((purchasable = "in_stock" AND stock > 0)
+                        OR (purchasable = "backorder" AND stock > 0)
+                        OR (purchasable = "always")) AND product_id = lunar_products.id
+                    ) < 1');
+                }
+            })
+        );
 		
         $this->tableBuilder->addFilter(
             SelectFilter::make('collection')->options(function () {
