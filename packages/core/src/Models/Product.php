@@ -205,49 +205,63 @@ class Product extends BaseModel implements SpatieHasMedia
         )->wherePriceableType(ProductVariant::class);
     }
 
-	public function clone()
-	{
-		$cloneProduct = $this->replicate();
-		$cloneProduct->push();
+public function clone()
+    {
+        $cloneProduct = $this->replicate();
+        $cloneProduct->push();
 
-		## name
-		$attributeData = $cloneProduct->attribute_data->toArray();
-		$name = $attributeData['name']->getValue();
+        $cloneProduct->update([
+            'status' => 'draft'
+        ]);
 
-		foreach($name as $k => $v)
-			$name[$k]->setValue($name[$k]->getValue().' Copy');
+        ## name
+        $attributeData = $cloneProduct->attribute_data->toArray();
+        $name = $attributeData['name']->getValue();
 
-		$attributeData['name']->setValue($name);
+        foreach($name as $k => $v)
+            $name[$k]->setValue($name[$k]->getValue().' Copy');
 
-		$cloneProduct->attribute_data = $attributeData;
-		$cloneProduct->save();
+        $attributeData['name']->setValue($name);
 
-		## collections
-		$collections = DB::table('lunar_collection_product')
-			->where('product_id', $this->getKey())
-			->get()->toArray();
+        $cloneProduct->attribute_data = $attributeData;
+        $cloneProduct->save();
 
-		foreach($collections as $collection)
-		{
-			unset($collection->id);
-			$collection->product_id = $cloneProduct->getKey();
-			DB::table('lunar_collection_product')->insert(json_decode(json_encode($collection), true));
-		}
+        ## collections
+        $collections = DB::table('lunar_collection_product')
+            ->where('product_id', $this->getKey())
+            ->get()->toArray();
 
-		## variants with options
-		foreach ($this->variants as $variant)
-		{
-			$clonedVariant = $variant->replicate();
-			$clonedVariant->product_id = $cloneProduct->getKey();
-			$cloneProduct->variants()->save($clonedVariant);
+        foreach($collections as $collection)
+        {
+            unset($collection->id);
+            $collection->product_id = $cloneProduct->getKey();
+            DB::table('lunar_collection_product')->insert(json_decode(json_encode($collection), true));
+        }
 
-			foreach($variant->values as $value)
-			{
-				$clonedOption = $value->replicate();
-				$clonedVariant->values()->save($clonedOption);
-			}
-		}
+        ## variants with options
+        foreach ($this->variants as $variant)
+        {
+            $clonedVariant = $variant->replicate();
+            $clonedVariant->product_id = $cloneProduct->getKey();
+            $cloneProduct->variants()->save($clonedVariant);
 
-		return $cloneProduct;
-	}
+            foreach($variant->values as $value)
+            {
+                $clonedOption = $value->replicate();
+                $clonedVariant->values()->save($clonedOption);
+            }
+
+            foreach($variant->prices as $price)
+            {
+                $clonedPrice = $price->replicate();
+                $clonedPrice->push();
+
+                $clonedPrice->update([
+                    'priceable_id' => $clonedVariant->id,
+                ]);
+            }
+        }
+
+        return $cloneProduct;
+    }
 }
