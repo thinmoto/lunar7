@@ -1,6 +1,6 @@
 <div
-    class="space-y-4"
-    x-data="{
+        class="space-y-4"
+        x-data="{
     lookups: @entangle('attribute.configuration.lookups').defer,
     init() {
       this.lookups = Array.isArray(this.lookups) ? this.lookups : []
@@ -26,6 +26,7 @@
     },
     addRow() {
       this.lookups.push({
+        slug: '',
         value: '',
       })
       this.lookups = JSON.parse(
@@ -52,6 +53,9 @@
             <x-slot name="head">
                 <x-hub::table.heading></x-hub::table.heading>
                 <x-hub::table.heading>
+                    {{ __('adminhub::fieldtypes.dropdown.label_heading') }}
+                </x-hub::table.heading>
+                <x-hub::table.heading>
                     {{ __('adminhub::fieldtypes.dropdown.value_heading') }}
                 </x-hub::table.heading>
                 <x-hub::table.heading></x-hub::table.heading>
@@ -63,14 +67,17 @@
                             <x-hub::icon ref="selector" style="solid" class="mr-2 text-gray-400 hover:text-gray-700 handle cursor-grab" />
                         </x-hub::table.cell>
                         <x-hub::table.cell>
+                            <x-hub::input.text type="text" @change="update()" x-model.lazy="lookup.slug" />
+                        </x-hub::table.cell>
+                        <x-hub::table.cell>
                             <x-hub::input.text type="text" @change="update()" x-model.lazy="lookup.value" />
                         </x-hub::table.cell>
                         <x-hub::table.cell>
                             <button
-                                type="button"
-                                class="text-gray-500 hover:text-red-500"
-                                x-on:click.debounce.100ms="removeRow(index)"
-                                wire:loading.attr="disabled"
+                                    type="button"
+                                    class="text-gray-500 hover:text-red-500"
+                                    x-on:click.debounce.100ms="removeRow(index)"
+                                    wire:loading.attr="disabled"
                             >
                                 <x-hub::icon ref="x" style="solid" class="w-3" />
                             </button>
@@ -82,14 +89,14 @@
     </div>
 
     <button
-        type="button"
-        class="block w-full py-2 mt-2 text-xs font-bold text-gray-400 uppercase bg-gray-100 rounded hover:bg-gray-200"
-        x-on:click="addRow"
+            type="button"
+            class="block w-full py-2 mt-2 text-xs font-bold text-gray-400 uppercase bg-gray-100 rounded hover:bg-gray-200"
+            x-on:click="addRow"
     >
         {{ __('adminhub::fieldtypes.dropdown.add_row_btn') }}
     </button>
 
-    @if($errors->has('attribute.configuration.lookups.*.label'))
+    @if($errors->has('attribute.configuration.lookups.*.value'))
         <x-hub::alert level="danger">
             {{ __('adminhub::fieldtypes.dropdown.missing_labels') }}
         </x-hub::alert>
