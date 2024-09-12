@@ -9,50 +9,59 @@ use Lunar\Models\Product;
 
 class ProductsTableBuilder extends TableBuilder
 {
-    /**
-     * Return the query data.
-     *
-     * @param  string|null  $searchTerm
-     * @param  array  $filters
-     * @param  string  $sortField
-     * @param  string  $sortDir
-     * @return LengthAwarePaginator
-     */
-    public function getData(): iterable
-    {
-        $query = Product::orderBy($this->sortField, $this->sortDir)
-            ->withTrashed();
+	/**
+	 * Return the query data.
+	 *
+	 * @param  string|null  $searchTerm
+	 * @param  array  $filters
+	 * @param  string  $sortField
+	 * @param  string  $sortDir
+	 * @return LengthAwarePaginator
+	 */
+	public function getData($useDefaultSearch = false): iterable
+	{
+		$query = Product::orderBy($this->sortField, $this->sortDir)
+			->withTrashed();
 
-        if ($this->searchTerm) {
-			$query->where(function($query){
-				$query
-					->whereRaw('LOWER(attribute_data) LIKE "%'.strtolower(addslashes($this->searchTerm)).'%"')
-					->orWhereRaw('JSON_UNQUOTE(JSON_EXTRACT(attribute_data, "$.name.value.uk")) LIKE "%'.strtolower(addslashes($this->searchTerm)).'%"');
+		if ($this->searchTerm) {
+			$query->where(function($query) use ($useDefaultSearch) {
+
+				if($useDefaultSearch)
+				{
+					$query->whereIn('id', Product::search($this->searchTerm)
+						->query(fn ($query) => $query->select('id'))
+						->take(500)
+						->keys());
+				}
+				else
+				{
+					$query
+						//->whereRaw('LOWER(attribute_data) LIKE "%'.strtolower(addslashes($this->searchTerm)).'%"')
+						->whereRaw('LOWER(JSON_UNQUOTE(JSON_EXTRACT(attribute_data, "$.name.value.uk"))) LIKE "%'.strtolower(addslashes($this->searchTerm)).'%"');
+				}
 			});
+		}
 
-            /*$query->whereIn('id', Product::search($this->searchTerm)
-                ->query(fn ($query) => $query->select('id'))
-                ->take(500)
-                ->keys());*/
-        }
+		$filters = collect($this->queryStringFilters)->filter(function ($value) {
+			return (bool) $value;
+		});
 
-        $filters = collect($this->queryStringFilters)->filter(function ($value) {
-            return (bool) $value;
-        });
+		foreach ($this->queryExtenders as $qe) {
+			call_user_func($qe, $query, $this->searchTerm, $filters);
+		}
 
-        foreach ($this->queryExtenders as $qe) {
-            call_user_func($qe, $query, $this->searchTerm, $filters);
-        }
+		// Get the table filters we want to apply.
+		$tableFilters = $this->getFilters()->filter(function ($filter) use ($filters) {
+			return $filters->has($filter->field);
+		});
 
-        // Get the table filters we want to apply.
-        $tableFilters = $this->getFilters()->filter(function ($filter) use ($filters) {
-            return $filters->has($filter->field);
-        });
+		foreach ($tableFilters as $filter) {
+			call_user_func($filter->getQuery(), $filters, $query);
+		}
 
-        foreach ($tableFilters as $filter) {
-            call_user_func($filter->getQuery(), $filters, $query);
-        }
+		if(!$query->count() && !$useDefaultSearch)
+			return $this->getData(true);
 
-        return $query->paginate($this->perPage);
-    }
+		return $query->paginate($this->perPage);
+	}
 }
