@@ -115,39 +115,39 @@ class ProductsTable extends Table
                 }
             })
         );
-		
-        $this->tableBuilder->addFilter(
-            SelectFilter::make('collection')->options(function () {
-                $collections = collect();
 
-				$collectionsTop = \Lunar\Models\Collection::query()
-					->whereNull('parent_id')
-					->get();
+	    $this->tableBuilder->addFilter(
+		    SelectFilter::make('collection')->options(function () {
+			    $collections = collect();
 
-                foreach($collections as $collectionsTop)
-                {
-                    $collections->push();
-                }
+			    $collectionsTop = \Lunar\Models\Collection::query()
+				    ->whereNull('parent_id')
+				    ->get();
 
-	            $collections = $collections->mapWithKeys(function(\Lunar\Models\Collection $collect){
-					return [$collect->id => $collect->translateAttribute('name')];
-	            });
+			    foreach($collectionsTop as $collection)
+			    {
+				    $collections->push($collection);
+			    }
 
-	            $collections->prepend('All', null);
+			    $collections = $collections->mapWithKeys(function(\Lunar\Models\Collection $collect){
+				    return [$collect->id => $collect->translateAttribute('name')];
+			    });
 
-                return $collections;
-            })->query(function ($filters, $query) {
-                $value = $filters->get('collection');
+			    $collections->prepend('All', null);
 
-                if ($value) {
-	                $tree = \Lunar\Models\Collection::find($value)->getChildsTree()->pluck('id', 'id')->keys()->toArray();
+			    return $collections;
+		    })->query(function ($filters, $query) {
+			    $value = $filters->get('collection');
 
-                    $query->whereRelation('collections', function($query) use ($tree){
-						$query->whereIn('collection_id', $tree);
-                    });
-                }
-            })
-        );
+			    if ($value) {
+				    $tree = \Lunar\Models\Collection::find($value)->getChildsTree()->pluck('id', 'id')->keys()->toArray();
+
+				    $query->whereRelation('collections', function($query) use ($tree){
+					    $query->whereIn('collection_id', $tree);
+				    });
+			    }
+		    })
+	    );
 
         $this->tableBuilder->addFilter(
             CheckboxFilter::make('deleted')->query(function ($filters, $query) {
