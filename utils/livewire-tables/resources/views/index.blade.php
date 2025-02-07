@@ -55,10 +55,10 @@
         </x-l-tables::support.modal>
     </div>
 
-    <div class="lt-border lt-border-gray-200 lt-rounded-lg {{ $tableClass }}">
+    <div {{ $tableClass }}">
         <div x-data="{
             showFilters: false,
-        }" class="lt-w-full lt-divide-y lt-divide-gray-200">
+        }" class="lt-w-full--disable lt-divide-y lt-divide-gray-200" style="width: auto; min-width: 100%; display: table;">
             @if ($this->searchable || $this->filterable)
                 <div class="lt-p-4 lt-bg-gray-100">
                     <div class="lt-flex lt-items-center lt-gap-2 sm:lt-gap-4">
@@ -223,7 +223,7 @@
                 <div wire:poll.{{ $poll }}></div>
             @endif
 
-            <div class="lt-overflow-x-auto" style="overflow-y: visible">
+            <div class="lt-overflow-x-auto--disable" style="overflow-y: visible">
                 @if (count($this->rows))
                     <table class="lt-min-w-full lt-divide-y lt-divide-gray-200">
                         <thead class="lt-bg-white">
