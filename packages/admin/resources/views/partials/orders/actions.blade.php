@@ -38,7 +38,7 @@
   'order' => $this->order,
 ])
 
-<a
+{{--<a
   class="inline-flex items-center px-4 py-2 font-bold transition border border-transparent border-gray-200 rounded hover:bg-white bg-gray-50 hover:border-gray-200"
   href="{{ route('hub.orders.pdf', $order->id) }}"
   target="_blank"
@@ -51,7 +51,7 @@
   />
 
   {{ __('adminhub::components.orders.show.download_pdf') }}
-</a>
+</a>--}}
 
 <div
   class="relative flex justify-end flex-1"
