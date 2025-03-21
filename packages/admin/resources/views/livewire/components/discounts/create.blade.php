@@ -4,7 +4,7 @@
             @if($discount->id)
                 {{ $discount->name }}
             @else
-                Create Discount
+                Додати знижку
             @endif
         </h1>
     </header>

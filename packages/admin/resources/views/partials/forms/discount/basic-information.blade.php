@@ -2,19 +2,19 @@
     <div class="flex-col px-4 py-5 space-y-4 bg-white sm:p-6">
         <header>
             <h3 class="text-lg font-medium leading-6 text-gray-900">
-                Basic Information
+                Базова інформація
             </h3>
         </header>
 
         <div class="space-y-4">
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 gap-4">
                 <x-hub::input.group for="name" :label="__('adminhub::inputs.name')" :error="$errors->first('discount.name')">
                     <x-hub::input.text wire:model.lazy="discount.name" id="name" />
                 </x-hub::input.group>
 
-                <x-hub::input.group for="handle" :label="__('adminhub::inputs.handle')" :error="$errors->first('discount.handle')" required>
+                {{--<x-hub::input.group for="handle" :label="__('adminhub::inputs.handle')" :error="$errors->first('discount.handle')" required>
                     <x-hub::input.text wire:model.defer="discount.handle" id="handle" />
-                </x-hub::input.group>
+                </x-hub::input.group>--}}
             </div>
 
             <div class="grid grid-cols-2 gap-4">

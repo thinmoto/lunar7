@@ -18,11 +18,16 @@
                     </x-hub::alert>
                 </div>
             @endif
+
             <div id="basic-information">
                 @include('adminhub::partials.forms.discount.basic-information')
             </div>
 
-            <div class="bg-white p-4 shadow rounded">
+            <div id="discount-type">
+                @include('adminhub::partials.forms.discount.discount-type')
+            </div>
+
+            {{--<div class="bg-white p-4 shadow rounded">
                 <div class="grid grid-cols-2 gap-4 items-center">
                     <x-hub::input.group label="Priority" for="priority" instructions="Discounts with higher priority will be applied first.">
                         <x-hub::input.select wire:model="discount.priority" id="priority">
@@ -39,28 +44,24 @@
                         </label>
                     </div>
                 </div>
-            </div>
+            </div>--}}
 
-            <div id="availability">
+            {{--<div id="availability">
                 @include('adminhub::partials.availability', [
                     'channels' => true,
                     'type' => 'discount',
                     'customerGroups' => true,
                     'customerGroupType' => 'toggle',
                 ])
-            </div>
+            </div>--}}
 
-            <div id="limitations">
+            {{--<div id="limitations">
                 @include('adminhub::partials.forms.discount.limitations')
             </div>
 
             <div id="conditions">
                 @include('adminhub::partials.forms.discount.conditions')
-            </div>
-
-            <div id="discount-type">
-                @include('adminhub::partials.forms.discount.discount-type')
-            </div>
+            </div>--}}
 
             @if($discount->id)
                 <div class="space-y-4">

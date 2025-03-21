@@ -286,7 +286,7 @@ abstract class AbstractDiscount extends Component
                         'channel_id' => $channel->id,
                         'starts_at' => $discountChannel ? $discountChannel->pivot->starts_at : null,
                         'ends_at' => $discountChannel ? $discountChannel->pivot->ends_at : null,
-                        'enabled' => $discountChannel ? $discountChannel->pivot->enabled : false,
+                        'enabled' => $discountChannel ? $discountChannel->pivot->enabled : true,
                         'scheduling' => false,
                     ],
                 ];
@@ -300,7 +300,7 @@ abstract class AbstractDiscount extends Component
                     $group->id => [
                         'customer_group_id' => $group->id,
                         'scheduling' => false,
-                        'enabled' => $pivot?->enabled ?? false,
+                        'enabled' => $pivot?->enabled ?? true,
                         'status' => 'hidden',
                         'starts_at' => $pivot?->starts_at ?? null,
                         'ends_at' => $pivot?->ends_at ?? null,
@@ -477,27 +477,27 @@ abstract class AbstractDiscount extends Component
                     'discount.ends_at',
                 ]),
             ],
+            // [
+            //     'title' => __('adminhub::menu.product.availability'),
+            //     'id' => 'availability',
+            //     'has_errors' => false,
+            // ],
+            // [
+            //     'title' => 'Limitations',
+            //     'id' => 'limitations',
+            //     'has_errors' => false,
+            // ],
+            // [
+            //     'title' => 'Conditions',
+            //     'id' => 'conditions',
+            //     'has_errors' => $this->errorBag->hasAny([
+            //         'minPrices.*.price',
+            //         'discount.max_uses',
+            //         'discount.max_uses_per_user',
+            //     ]),
+            // ],
             [
-                'title' => __('adminhub::menu.product.availability'),
-                'id' => 'availability',
-                'has_errors' => false,
-            ],
-            [
-                'title' => 'Limitations',
-                'id' => 'limitations',
-                'has_errors' => false,
-            ],
-            [
-                'title' => 'Conditions',
-                'id' => 'conditions',
-                'has_errors' => $this->errorBag->hasAny([
-                    'minPrices.*.price',
-                    'discount.max_uses',
-                    'discount.max_uses_per_user',
-                ]),
-            ],
-            [
-                'title' => 'Discount Type',
+                'title' => 'Тип знижки',
                 'id' => 'type',
                 'has_errors' => $this->errorBag->hasAny(array_merge(
                     $this->getDiscountComponent()->rules(),
