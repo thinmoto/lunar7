@@ -138,7 +138,7 @@ abstract class AbstractDiscount extends Component
             });
 
         $this->selectedConditions = $this->discount->purchasableConditions()
-            ->wherePurchasableType(Product::class)
+            //->wherePurchasableType(Product::class)
             ->whereHas('purchasable')
             ->pluck('purchasable_id')->values()->toArray();
 
@@ -188,7 +188,7 @@ abstract class AbstractDiscount extends Component
      */
     public function getDiscountTypesProperty()
     {
-        return Discounts::getTypes();
+        return Discounts::getTypes()->filter(fn ($type) => !in_array(get_class($type), ['Lunar\DiscountTypes\AmountOff', 'Lunar\DiscountTypes\BuyXGetY']))->toArray();
     }
 
     /**
@@ -375,6 +375,7 @@ abstract class AbstractDiscount extends Component
         })->validate(null, $this->getValidationMessages());
 
         DB::transaction(function () {
+            $this->discount->stop = $this->discount->stop ?: 0;
             $this->discount->max_uses = $this->discount->max_uses ?: null;
             $this->discount->max_uses_per_user = $this->discount->max_uses_per_user ?: null;
             $this->discount->save();

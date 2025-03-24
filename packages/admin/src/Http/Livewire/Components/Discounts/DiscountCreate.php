@@ -2,8 +2,10 @@
 
 namespace Lunar\Hub\Http\Livewire\Components\Discounts;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Lunar\DiscountTypes\AmountOff;
+use Lunar\Facades\Discounts;
 use Lunar\Models\Currency;
 use Lunar\Models\Discount;
 
@@ -19,12 +21,19 @@ class DiscountCreate extends AbstractDiscount
      */
     public function mount()
     {
-        $this->discount = new Discount([
-            'priority' => 1,
-            'type' => AmountOff::class,
-            'starts_at' => now()->startOfHour(),
-            'data' => [],
-        ]);
+        if($discountType = Arr::first($this->getDiscountTypesProperty()))
+        {
+            $this->discount = new Discount([
+                'priority' => 1,
+                'type' => get_class($discountType),
+                'starts_at' => now()->startOfHour(),
+                'data' => [],
+            ]);
+        }
+        else
+        {
+            $this->discount = new Discount();
+        }
 
         $this->currency = Currency::getDefault();
         $this->syncAvailability();
@@ -33,6 +42,11 @@ class DiscountCreate extends AbstractDiscount
         $this->selectedCollections = collect();
         $this->selectedProducts = collect();
         $this->selectedProductVariants = collect();
+    }
+
+    public function getDiscountTypesProperty()
+    {
+        return Discounts::getTypes()->filter(fn ($type) => !in_array(get_class($type), ['Lunar\DiscountTypes\AmountOff', 'Lunar\DiscountTypes\BuyXGetY']))->toArray();
     }
 
     /**

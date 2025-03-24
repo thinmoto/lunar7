@@ -133,7 +133,7 @@ class DiscountManager implements DiscountManagerInterface
             ->with([
                 'purchasables',
             ])
-            ->when(
+            /*->when(
                 $cart,
                 function ($query, $value) {
                     return $query->where(function ($query) use ($value) {
@@ -147,7 +147,7 @@ class DiscountManager implements DiscountManagerInterface
                             );
                     });
                 }
-            )->when(
+            )*/->when(
                 $cart?->coupon_code,
                 fn ($query, $value) => $query->where('coupon', '=', $value)->orWhere(fn ($query) => $query->whereNull('coupon')->orWhere('coupon', '')),
                 fn ($query, $value) => $query->whereNull('coupon')->orWhere('coupon', '')
