@@ -34,6 +34,7 @@ class DiscountShow extends AbstractDiscount
             'discount.ends_at' => 'nullable|date|after:discount.starts_at',
             'discount.type' => 'string|required',
             'discount.data' => 'array',
+            'discount.data.url' => 'nullable|string',
             'selectedCollections' => 'array',
             'selectedBrands' => 'array',
             'selectedProducts' => 'array',
